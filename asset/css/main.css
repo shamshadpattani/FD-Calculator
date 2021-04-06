@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800&display=swap');
+body{
+  margin:0;
+  padding:0;
+  color:#555;
+  line-height: 1.4;
+  font-size: 18px !important;
+}
+:root {
+  --main-text-color: #ef7c00;
+}
+.text-orange{
+  color:var( --main-text-color);
+}
+.btn-orange{
+  background-color:#ef7c00;
+}
+.fs-16{
+  font-size: 16px;
+}
+.card-width{
+  width: auto;
+  margin: 0 auto;
+}
+.details_card{
+  background-color: #f3f3f3;
+  border: 1px solid #ccc;
+}
+.details_card h3{
+  font-size: 18px !important;
+  color: #555;
+  font-weight: 400;
+  margin: 5px;
+}
+.w-140{
+  width: 168px;
+}
+.row{
+  margin:0;
+}
+.text-underline{
+  text-decoration: underline;
+}
+.select2-container .select2-selection--single {
+  height: 35px;
+}
+.select2-container{
+  width: 168px !important;
+}
+.select2-container--default .select2-selection--single {
+  border: 1px solid #ced4da !important;
+}
+.colon-indicator:after {
+  content: ':';
+  position: absolute;
+  right: 8%;
+  top:0;
+}
+.mar-l-1 {
+  margin-left: 1.2rem!important;
+}
+input[type="amount"]::placeholder { 
+  text-align: center;
+}
+.select2-selection__rendered{
+  font-size: 16px;
+  text-align: center;
+}
+.btn-width{
+  width: 150px;
+  height: 50px;
+}
+.form-control {
+  text-align: center;
+}

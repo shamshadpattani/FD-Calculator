@@ -1,0 +1,72 @@
+<html>
+
+<head>
+  <title>Admin</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+
+
+
+  <!--primeVue-->
+  <link href="https://unpkg.com/primevue/resources/themes/saga-blue/theme.css " rel="stylesheet">
+  <link href="https://unpkg.com/primevue/resources/primevue.min.css " rel="stylesheet">
+  <link href="https://unpkg.com/primeicons/primeicons.css " rel="stylesheet">
+ 
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+
+  <link rel="stylesheet" type="text/css" href="asset/css/main.css">
+</head>
+
+<body>
+  <div id="app">
+    <template>
+    <p-datatable :value="maturityList.data" showGridlines responsiveLayout="scroll">
+    <template #empty>
+      <div class="text-center content-center emptymsg-div-h">
+          <img src="assets/images/png/empty-icon.jpg" class="mt-5"/>
+          <p>No records found</p>
+      </div>
+  </template>
+   
+<p-columnGroup type="header">
+        <p-row>
+            <p-column  header="Maturity Period" :rowspan="2"></p-column>
+            <p-column header="Interest rates " :colspan="1"></p-column>
+        </p-row>
+
+        <p-row>
+          <p-column header="General"></p-column>
+          <p-column header="Senior Citizen"></p-column>
+          </p-row>
+
+        </p-columnGroup>
+          <p-column field="date" ></p-column>
+          <p-column field="n" ></p-column>
+          <p-column field="s" ></p-column>
+    </p-datatable>
+    </template>
+  </div>
+
+
+
+  <script src="https://unpkg.com/vue"></script>
+
+  <!-- vuejs cdn -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
+
+  <script src="https://unpkg.com/primevue@2.3.0/datatable/datatable.umd.min.js"></script>
+  <script src="https://unpkg.com/primevue@2.3.0/columngroup/columngroup.umd.min.js"></script>
+  <script src="https://unpkg.com/primevue@2.3.0/column/column.umd.min.js"></script>
+  <script src="https://unpkg.com/primevue@2.3.0/row/row.umd.min.js"></script>
+  <script src="https://unpkg.com/primevue@2.3.0/inputtext/inputtext.umd.min.js"></script>
+
+  <script src="asset/js/admin.js"></script>
+</body>
+</html>

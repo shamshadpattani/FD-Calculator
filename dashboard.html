@@ -21,40 +21,50 @@
 
 <body>
   <div id="app">
-    <template>
-        <p-datatable :value="maturityList" edit-mode="row" data-key="id" :editing-rows.sync="editingRows"
-        @row-edit-init="onRowEditInit" @row-edit-cancel="onRowEditCancel">
+    <div class="p-5">
+      <template>
+        <h3 class="mb-4">FD Details</h3>
+        <div class="card border">
+          <p-datatable :value="maturityList" :paginator="true" :rows="10"
+          paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+          :rows-per-page-options="[10,20,50]"
+          current-page-report-template="Showing {first} to {last} of {totalRecords}" edit-mode="row" data-key="id" :editing-rows.sync="editingRows"
+            @row-edit-init="onRowEditInit" @row-edit-cancel="onRowEditCancel">
 
-        <p-columnGroup type="header">
-            <p-row>
-                <p-column  header="Maturity Period" :rowspan="2"></p-column>
-                <p-column header="Interest rates " :colspan="1"></p-column>
-            </p-row>
-    
-            <p-row>
-              <p-column header="General"></p-column>
-              <p-column header="Senior Citizen"></p-column>
+            <p-columnGroup type="header">
+              <p-row>
+                <p-column header="Maturity Period" :rowspan="2"></p-column>
+                <p-column header="Interest rates" :colspan="2"></p-column>
+                <p-column header="Action" :rowspan="2"></p-column>
+              </p-row>
+
+              <p-row>
+                <p-column header="General"></p-column>
+                <p-column header="Senior Citizen"></p-column>
               </p-row>
             </p-columnGroup>
-        <p-column field="date" header="Maturity Period">
-            <template #editor="slotProps">
-                <p-inputtext v-model="slotProps.data[slotProps.column.field]" autofocus></p-inputtext>
-            </template>
-        </p-column>
-        <p-column field="g" header="General">
-            <template #editor="slotProps">
-                <p-inputtext v-model="slotProps.data[slotProps.column.field]"></p-inputtext>
-            </template>
-        </p-column>
-        <p-column field="n" header="Senior Citizen">
-            <template #editor="slotProps">
-                <p-inputtext v-model="slotProps.data[slotProps.column.field]"></p-inputtext>
-            </template>
-        </p-column>
-        <p-column :row-editor="true" header-style="width:7rem" body-style="text-align:center"></p-column>
-    </p-datatable>
 
-    </template>
+            <p-column field="date" header="Maturity Period" sortable>
+              <template #editor="slotProps">
+                <p-inputtext v-model="slotProps.data[slotProps.column.field]" autofocus></p-inputtext>
+              </template>
+            </p-column>
+            <p-column field="g" header="General" sortable>
+              <template #editor="slotProps">
+                <p-inputtext v-model="slotProps.data[slotProps.column.field]"></p-inputtext>
+              </template>
+            </p-column>
+            <p-column field="n" header="Senior Citizen" sortable>
+              <template #editor="slotProps">
+                <p-inputtext v-model="slotProps.data[slotProps.column.field]"></p-inputtext>
+              </template>
+            </p-column>
+            <p-column :row-editor="true" header-style="width:7rem" body-style="text-align:center"></p-column>
+            
+          </p-datatable>
+        </div>
+      </template>
+    </div>
   </div>
 
 
@@ -70,15 +80,26 @@
   <script src="https://unpkg.com/primevue@2.3.0/column/column.umd.min.js"></script>
   <script src="https://unpkg.com/primevue@2.3.0/row/row.umd.min.js"></script>
   <script src="https://unpkg.com/primevue@2.3.0/inputtext/inputtext.umd.min.js"></script>
-  <script src="primevue/dropdown.umd.min.js"></script>
+  <script src="primevue/button.umd.min.js"></script>
   <!-- <script src="service/productService.js"></script> -->
- 
 
-  
+
+
   <script src="servicejs/vue-router.js"></script>
   <script src="servicejs/httpService.js"></script>
 
   <script src="asset/js/dash.js"></script>
+  <style>
+    .p-datatable .p-datatable-thead>tr>th {
+      text-align: center;
+      border-right:1px solid #e9ecef;
+    }
+    .p-datatable .p-datatable-tbody > tr > td {
+      text-align: center;
+      padding: 0.5rem 0.5rem;
+    }
+    
+  </style>
 </body>
 
 </html>

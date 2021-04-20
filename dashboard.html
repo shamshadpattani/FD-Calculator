@@ -1,0 +1,78 @@
+<html>
+
+<head>
+  <title>Admin</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!--primeVue-->
+  <link href="https://unpkg.com/primevue/resources/themes/saga-blue/theme.css " rel="stylesheet">
+  <link href="https://unpkg.com/primevue/resources/primevue.min.css " rel="stylesheet">
+  <link href="https://unpkg.com/primeicons/primeicons.css " rel="stylesheet">
+
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+
+  <link rel="stylesheet" type="text/css" href="asset/css/main.css">
+</head>
+
+<body>
+  <div id="app">
+    <template>
+        <p-datatable :value="products3" editMode="row" dataKey="id" :editingRows.sync="editingRows"
+        @row-edit-init="onRowEditInit" @row-edit-cancel="onRowEditCancel">
+        <p-column field="userId" header="UserId">
+            <template #editor="slotProps">
+                <p-inputtext v-model="slotProps.data[slotProps.column.field]" autofocus></p-inputtext>
+            </template>
+        </p-column>
+        <p-column field="id" header="Id">
+            <template #editor="slotProps">
+                <p-inputtext v-model="slotProps.data[slotProps.column.field]"></p-inputtext>
+            </template>
+        </p-column>
+        <p-column field="title" header="Title">
+            <template #editor="slotProps">
+                <p-dropdown v-model="slotProps.data['inventoryStatus']" :options="statuses" optionLabel="label" optionValue="value" placeholder="Select a Status">
+                    <template #option="slotProps">
+                        <span :class="'product-badge status-' + slotProps.option.value.toLowerCase()">{{slotProps.option.label}}</span>
+                    </template>
+                </p-dropdown>
+            </template>
+            <template #body="slotProps">
+                {{getStatusLabel(slotProps.data.inventoryStatus)}}
+            </template>
+        </p-column>
+        <p-column field="body" header="Body">
+            <template #editor="slotProps">
+                <p-inputtext v-model="slotProps.data[slotProps.column.field]"></p-inputtext>
+            </template>
+        </p-column>
+        <p-column :rowEditor="true" headerStyle="width:7rem" bodyStyle="text-align:center"></p-column>
+    </p-datatable>
+    </template>
+  </div>
+
+
+
+  <script src="https://unpkg.com/vue"></script>
+
+  <!-- vuejs cdn -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
+
+  <script src="https://unpkg.com/primevue@2.3.0/datatable/datatable.umd.min.js"></script>
+  <script src="https://unpkg.com/primevue@2.3.0/columngroup/columngroup.umd.min.js"></script>
+  <script src="https://unpkg.com/primevue@2.3.0/column/column.umd.min.js"></script>
+  <script src="https://unpkg.com/primevue@2.3.0/row/row.umd.min.js"></script>
+  <script src="https://unpkg.com/primevue@2.3.0/inputtext/inputtext.umd.min.js"></script>
+  <script src="primevue/dropdown.umd.min.js"></script>
+  <!-- <script src="service/productService.js"></script> -->
+  <script src="asset/main.js"></script>
+  <script src="asset/js/dash.js"></script>
+</body>
+
+</html>

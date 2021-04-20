@@ -4,7 +4,7 @@
   <title>Admin</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  
+
 
 
 
@@ -12,7 +12,7 @@
   <link href="https://unpkg.com/primevue/resources/themes/saga-blue/theme.css " rel="stylesheet">
   <link href="https://unpkg.com/primevue/resources/primevue.min.css " rel="stylesheet">
   <link href="https://unpkg.com/primeicons/primeicons.css " rel="stylesheet">
- 
+
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -25,31 +25,31 @@
 
 <body>
   <div id="app">
-    <template>
-    <p-datatable :value="maturityList.data" showGridlines responsiveLayout="scroll">
-    <template #empty>
-      <div class="text-center content-center emptymsg-div-h">
-          <img src="assets/images/png/empty-icon.jpg" class="mt-5"/>
-          <p>No records found</p>
-      </div>
-  </template>
-   
-<p-columnGroup type="header">
-        <p-row>
-            <p-column  header="Maturity Period" :rowspan="2"></p-column>
-            <p-column header="Interest rates " :colspan="1"></p-column>
-        </p-row>
 
-        <p-row>
-          <p-column header="General"></p-column>
-          <p-column header="Senior Citizen"></p-column>
+    <template>
+      <p-datatable :value="maturityList.data" showGridlines responsiveLayout="scroll" editMode="row" dataKey="id" :editingRows.sync="editingRows"
+      @row-edit-init="onRowEditInit" @row-edit-cancel="onRowEditCancel">
+        <template #empty>
+          <div class="text-center content-center emptymsg-div-h">
+            <img src="assets/images/png/empty-icon.jpg" class="mt-5" />
+            <p>No records found</p>
+          </div>
+        </template>
+
+        <p-columnGroup type="header">
+          <p-row>
+            <p-column header="Maturity Period" :rowspan="2"></p-column>
+            <p-column header="Interest rates " :rowspan="2"></p-column>
+             <p-column header="General" :rowspan="2"></p-column>
+            <p-column header="Senior" :rowspan="2"></p-column>
           </p-row>
 
         </p-columnGroup>
-          <p-column field="date" ></p-column>
-          <p-column field="n" ></p-column>
-          <p-column field="s" ></p-column>
-    </p-datatable>
+        <p-column field="date"></p-column>
+        <p-column field="n"></p-column>
+        <p-column field="s"></p-column>
+        <p-column field="g"></p-column>
+      </p-datatable>
     </template>
   </div>
 
@@ -69,4 +69,5 @@
 
   <script src="asset/js/admin.js"></script>
 </body>
+
 </html>

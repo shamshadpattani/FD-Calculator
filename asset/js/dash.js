@@ -10,7 +10,7 @@ new Vue({
         'p-column':column,
         'p-columngroup':columngroup,
         'p-inputtext':inputtext,
-        'p-dropdown': dropdown
+        'p-button':button,
     },
     data() {
         return {
@@ -24,7 +24,7 @@ new Vue({
     created() {
      
         this.columns = [
-            {field: 'userId', header: 'Maturity Period'},
+            {field: 'date', header: 'Maturity Period'},
             {field: 'g', header: 'General'},
             {field: 'n', header: 'Senior Citizen'}
         ];

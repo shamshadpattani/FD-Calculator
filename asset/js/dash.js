@@ -1,3 +1,8 @@
+
+var router = new VueRouter({
+    mode: 'history',
+    routes: []
+});
 new Vue({
     components: {
         'p-datatable' : datatable,
@@ -9,103 +14,69 @@ new Vue({
     },
     data() {
         return {
+            maturityList:null,
             editingCellRows: {},
             editingRows: [],
             columns: null,
-            products1: null,
-            products2: null,
-            products3: null,
-            statuses: [{label: 'In Stock', value: 'INSTOCK'},{label: 'Low Stock', value: 'LOWSTOCK'},{label: 'Out of Stock', value: 'OUTOFSTOCK'}]
         }
     },
     originalRows: null,
-    productService: null,
     created() {
-        this.productService = new ProductService();
-
+     
         this.columns = [
-            {field: 'userId', header: 'userId'},
-            {field: 'id', header: 'id'},
-            {field: 'title', header: 'title'},
-            {field: 'body', header: 'body'}
+            {field: 'userId', header: 'Maturity Period'},
+            {field: 'g', header: 'General'},
+            {field: 'n', header: 'Senior Citizen'}
         ];
 
         this.originalRows = {};
+      
+      
+    },
+    mounted(){
+        this.httpService=gettingHttpFunctions();
+        this.getData();
+        // var queryParams = this.$route.query;
+        // if(queryParams != undefined && queryParams.access_token != undefined ){
+        //     localStorage.setItem("accessToken", queryParams.access_token)
+        // }
+        // console.log(this.$route.query)
     },
     methods: {
-        getProductsSmall() {
-            return axios.get('product.json').then(res => res.data.data);
+        getJsonFormattedData:function(data){
+            var vm = this;
+            var formattedJsonObject=[];
+            data.forEach(function(v,i) {
+                formattedJsonObject.push({
+                    id: i+1,
+                    date: v.from+" days to "+v.to+" days",
+                    g:v.generalIntrest+"%",
+                    n:v.seniorIntrest+"%"
+                });
+                
+            });
+            return formattedJsonObject
         },
-        onCellEditComplete(event) {
-            if (!this.editingCellRows[event.index]) {
-                return;
+        getData:async function(){
+            var vm=this;
+            config={
+                method: "GET",
+                path:'/helloworld/master/fdIntrest'
             }
-
-            const editingCellValue = this.editingCellRows[event.index][event.field];
-
-            switch (event.field) {
-                case 'quantity':
-                case 'price':
-                    if (this.isPositiveInteger(editingCellValue))
-                        Vue.set(this.products2, event.index, this.editingCellRows[event.index]);
-                    else
-                        event.preventDefault();
-                break;
-
-                default:
-                    if (editingCellValue.trim().length > 0)
-                        Vue.set(this.products2, event.index, this.editingCellRows[event.index]);
-                    else
-                        event.preventDefault();
-                break;
+            var response= await this.httpService.mainAxiosRequest(config);
+            if(response != undefined){
+                if(response.data.length > 0 ){
+                    vm.maturityList = vm.getJsonFormattedData(response.data);
+                }
             }
-        },
-        onCellEdit(newValue, props) {
-            if (!this.editingCellRows[props.index]) {
-                this.editingCellRows[props.index] = {...props.data};
-            }
-
-            this.editingCellRows[props.index][props.column.field] = newValue;
-        },
-        isPositiveInteger(val) {
-            let str = String(val);
-            str = str.trim();
-            if (!str) {
-                return false;
-            }
-            str = str.replace(/^0+/, "") || "0";
-            var n = Math.floor(Number(str));
-            return n !== Infinity && String(n) === str && n >= 0;
         },
         onRowEditInit(event) {
-            this.originalRows[event.index] = {...this.products3[event.index]};
+            this.originalRows[event.index] = {...this.maturityList[event.index]};
+            debugger;
         },
         onRowEditCancel(event) {
-            Vue.set(this.products3, event.index, this.originalRows[event.index]);
-        },
-        getStatusLabel(status) {
-            switch(status) {
-                case 'INSTOCK':
-                    return 'In Stock';
-
-                case 'LOWSTOCK':
-                    return 'Low Stock';
-
-                case 'OUTOFSTOCK':
-                    return 'Out of Stock';
-
-                default:
-                    return 'NA';
-            }
+            Vue.set(this.maturityList, event.index, this.originalRows[event.index]);
+            debugger;
         }
-    },
-    mounted() {
-        // this.productService.getProductsSmall().then(data => this.products1 = data);
-        // this.productService.getProductsSmall().then(data => this.products2 = data);
-        // this.productService.getProductsSmall().then(data => this.products3 = data);
-        Vue.axios.get('https://jsonplaceholder.typicode.com/posts').then((response) => {
-            this.products3 = response.data;
-            console.log(this.products3)
-        })
     }
     }).$mount('#app')

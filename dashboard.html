@@ -25,17 +25,16 @@
       <template>
         <h3 class="mb-4">FD Details</h3>
         <div class="card border">
-          <p-datatable :value="maturityList" :paginator="true" :rows="10"
+          <p-datatable :value="maturityList" :paginator="true" :rows="10" 
           paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
           :rows-per-page-options="[10,20,50]"
-          current-page-report-template="Showing {first} to {last} of {totalRecords}" edit-mode="row" data-key="id" :editing-rows.sync="editingRows"
-            @row-edit-init="onRowEditInit" @row-edit-cancel="onRowEditCancel">
+          current-page-report-template="Showing {first} to {last} of {totalRecords}" edit-mode="row" data-key="id" :editing-rows.sync="editingRows">
 
             <p-columnGroup type="header">
               <p-row>
                 <p-column header="Maturity Period" :rowspan="2"></p-column>
                 <p-column header="Interest rates" :colspan="2"></p-column>
-                <p-column header="Action" :rowspan="2"></p-column>
+                <p-column header="Action" :rowspan="2"></p-row></p-column>
               </p-row>
 
               <p-row>
@@ -44,28 +43,64 @@
               </p-row>
             </p-columnGroup>
 
-            <p-column field="date" header="Maturity Period" sortable>
+            <p-column field="date" header="Maturity Period">
               <template #editor="slotProps">
                 <p-inputtext v-model="slotProps.data[slotProps.column.field]" autofocus></p-inputtext>
               </template>
             </p-column>
-            <p-column field="g" header="General" sortable>
+            <p-column field="g" header="General">
               <template #editor="slotProps">
                 <p-inputtext v-model="slotProps.data[slotProps.column.field]"></p-inputtext>
               </template>
             </p-column>
-            <p-column field="n" header="Senior Citizen" sortable>
+            <p-column field="n" header="Senior Citizen">
               <template #editor="slotProps">
                 <p-inputtext v-model="slotProps.data[slotProps.column.field]"></p-inputtext>
               </template>
             </p-column>
-            <p-column :row-editor="true" header-style="width:7rem" body-style="text-align:center"></p-column>
-            
+            <p-column>
+              <template #body="slotProps">
+                <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" @click="editProduct(slotProps.data)"></p-button>
+                <p-button icon="pi pi-trash" class="p-button-rounded p-button-warning" @click="confirmDeleteProduct(slotProps.data)" v-on:click.prevent="deleteArray(index)"></p-button>
+              </template>
+            </p-column>
           </p-datatable>
         </div>
       </template>
     </div>
+    <template>
+      <p-dialog :visible.sync="productDialog" :style="{width: '450px'}" header="Product Details" :modal="true" class="p-fluid">
+        <div class="p-field">
+            <label for="date">Date</label>
+            <p-inputtext id="date" v-model="product.date" required="true" rows="3" cols="20"></p-inputtext>
+        </div>
+        <div class="p-field">
+          <label for="g">General</label>
+          <p-inputtext id="g" v-model="product.g" required="true" rows="3" cols="20"></p-inputtext>
+        </div>
+        <div class="p-field">
+          <label for="n">Senior Citizen</label>
+          <p-inputtext id="n" v-model="product.n" required="true" rows="3" cols="20"></p-inputtext>
+        </div>
+        <template #footer>
+            <p-button label="Cancel" icon="pi pi-times" class="p-button-text" @click="hideDialog"></p-button>
+            <p-button  label="Save" icon="pi pi-check" class="p-button-text" @click="saveProduct"></p-button>
+        </template>
+      </p-dialog>
+        
+      <p-dialog :visible.sync="deleteProductDialog" :style="{width: '450px'}" header="Confirm" :modal="true">
+          <div class="confirmation-content">
+              <i class="pi pi-exclamation-triangle p-mr-3" style="font-size: 2rem"></i>
+              <span v-if="maturityList">Are you sure you want to delete?</span>
+          </div>
+          <template #footer>
+              <p-button label="No" icon="pi pi-times" class="p-button-text" @click="deleteProductDialog = false"></p-button>
+              <p-button label="Yes" icon="pi pi-check" class="p-button-text" @click="deleteProduct"></p-button>
+          </template>
+      </p-dialog>
+    </template>
   </div>
+  
 
 
 
@@ -81,6 +116,8 @@
   <script src="https://unpkg.com/primevue@2.3.0/row/row.umd.min.js"></script>
   <script src="https://unpkg.com/primevue@2.3.0/inputtext/inputtext.umd.min.js"></script>
   <script src="primevue/button.umd.min.js"></script>
+  <script src="primevue/dialog.umd.min.js"></script>
+  <script src="primevue/toast.umd.min.js"></script>
   <!-- <script src="service/productService.js"></script> -->
 
 
@@ -98,6 +135,7 @@
       text-align: center;
       padding: 0.5rem 0.5rem;
     }
+    [v-cloak] {display: none}
     
   </style>
 </body>

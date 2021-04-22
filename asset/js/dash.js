@@ -87,7 +87,23 @@ new Vue({
             if(response != undefined){
                 debugger;
                 if(response.length > 0 ){
-                    vm.maturityList = vm.getJsonFormattedData(response);
+                    vm.maturityList = response;
+                    debugger;
+                }
+            }
+        },
+        deleteData:async function(id){
+            var vm=this;
+        
+            config={
+                method: "DELETE",
+                path:'/data/'+id
+            }
+            var response= await this.httpService.mainAxiosRequest(config);
+            if(response != undefined){
+                debugger;
+                if(response.length > 0 ){
+                    vm.maturityList =response
                     debugger;
                 }
             }
@@ -106,10 +122,9 @@ new Vue({
             this.submitted = false;
         },
         deleteProduct() {
-            this.maturityList = this.maturityList.filter(val => val.id !== this.product.id);
-            this.deleteProductDialog = false;
-            this.product = {};
-            this.$toast.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
+            debugger;
+            this.deleteData(this.product.id)
+            debugger;
         },
         updateProduct() {
             this.submitted = true;

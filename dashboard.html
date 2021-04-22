@@ -74,7 +74,7 @@
             <p-column>
               <template #body="slotProps">
                 <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" @click="editProduct(slotProps.data)"></p-button>
-                <p-button icon="pi pi-trash" class="p-button-rounded p-button-warning" @click="confirmDeleteProduct(slotProps.data)" v-on:click.prevent="deleteArray(index)"></p-button>
+                <p-button icon="pi pi-trash" class="p-button-rounded p-button-warning" @click="confirmDeleteProduct(slotProps.data)"></p-button>
               </template>
             </p-column>
           </p-datatable>
@@ -112,7 +112,7 @@
           </div>
           <template #footer>
               <p-button label="No" icon="pi pi-times" class="p-button-text" @click="deleteProductDialog = false"></p-button>
-              <p-button label="Yes" icon="pi pi-check" class="p-button-text" @click="deleteProduct"></p-button>
+              <p-button label="Yes" icon="pi pi-check" class="p-button-text" @click="deleteProduct()"></p-button>
           </template>
       </p-dialog>
     </template>

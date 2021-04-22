@@ -1,13 +1,6 @@
 {
   "data": [
     {
-      "id": 1,
-      "from": "1",
-      "to": 7,
-      "generalIntrest": "5.3",
-      "seniorIntrest": 6.5
-    },
-    {
       "id": 2,
       "from": "8",
       "to": 15,

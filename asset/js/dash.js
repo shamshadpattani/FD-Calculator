@@ -11,13 +11,18 @@ new Vue({
         'p-columngroup':columngroup,
         'p-inputtext':inputtext,
         'p-button':button,
+        'p-dialog':dialog
     },
     data() {
         return {
             maturityList:null,
-            editingCellRows: {},
             editingRows: [],
             columns: null,
+            productDialog: false,
+            deleteProductDialog: false,
+            deleteProductsDialog: false,
+            submitted: false,
+            product:{}
         }
     },
     originalRows: null,
@@ -29,9 +34,7 @@ new Vue({
             {field: 'n', header: 'Senior Citizen'}
         ];
 
-        this.originalRows = {};
-      
-      
+        this.originalRows = {};  
     },
     mounted(){
         this.httpService=gettingHttpFunctions();
@@ -70,13 +73,56 @@ new Vue({
                 }
             }
         },
-        onRowEditInit(event) {
-            this.originalRows[event.index] = {...this.maturityList[event.index]};
-            debugger;
+        editProduct(maturityList) {
+            this.product = {...maturityList};
+            this.productDialog = true;
         },
-        onRowEditCancel(event) {
-            Vue.set(this.maturityList, event.index, this.originalRows[event.index]);
-            debugger;
+        confirmDeleteProduct(maturityList) {
+            this.product = maturityList;
+            this.deleteProductDialog = true;
+        },
+        hideDialog() {
+            this.productDialog = false;
+            this.submitted = false;
+        },
+        deleteProduct() {
+            this.maturityList = this.maturityList.filter(val => val.id !== this.product.id);
+            this.deleteProductDialog = false;
+            this.product = {};
+            this.$toast.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
+        },
+        saveProduct() {
+            this.submitted = true;
+
+            if (this.product.date.trim()) {
+                if (this.product.id) {
+                    this.$set(this.maturityList, this.findIndexById(this.product.id), this.product);
+                    // this.$toast.add({severity:'success', summary: 'Successful', detail: 'Product Updated', life: 3000});
+                    // alert("updated")
+                }
+
+                this.productDialog = false;
+                this.product = {};
+            }
+        },
+        findIndexById(id) {
+            let index = -1;
+            for (let i = 0; i < this.maturityList.length; i++) {
+                if (this.maturityList[i].id === id) {
+                    index = i;
+                    break;
+                }
+            }
+
+            return index;
+        },
+        createId() {
+            let id = '';
+            var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            for ( var i = 0; i < 5; i++ ) {
+                id += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return id;
         }
     }
     }).$mount('#app')

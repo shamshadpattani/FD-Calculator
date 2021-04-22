@@ -39,16 +39,13 @@ new Vue({
     mounted(){
         this.httpService=gettingHttpFunctions();
         this.getData();
-        // var queryParams = this.$route.query;
-        // if(queryParams != undefined && queryParams.access_token != undefined ){
-        //     localStorage.setItem("accessToken", queryParams.access_token)
-        // }
-        // console.log(this.$route.query)
     },
     methods: {
         getJsonFormattedData:function(data){
+            debugger;
             var vm = this;
             var formattedJsonObject=[];
+            debugger;
             data.forEach(function(v,i) {
                 formattedJsonObject.push({
                     id: i+1,
@@ -64,18 +61,45 @@ new Vue({
             var vm=this;
             config={
                 method: "GET",
-                path:'/helloworld/master/fdIntrest'
+                path:'/data'
             }
             var response= await this.httpService.mainAxiosRequest(config);
             if(response != undefined){
-                if(response.data.length > 0 ){
-                    vm.maturityList = vm.getJsonFormattedData(response.data);
+                debugger;
+                if(response.length > 0 ){
+                    vm.maturityList = vm.getJsonFormattedData(response);
+                    debugger;
+                }
+            }
+        },
+        editData:async function(product){
+            var vm=this;
+           
+            var requestBody={
+                "id":product.id,
+                "from": product.date.trim
+                 "to":
+            "generalIntrest": 5.0,
+			"seniorIntrest": 6.5
+            }
+            config={
+                method: "PUT",
+                path:'/data/'+product.id,
+            
+            }
+            var response= await this.httpService.mainAxiosRequest(config);
+            if(response != undefined){
+                debugger;
+                if(response.length > 0 ){
+                    vm.maturityList = vm.getJsonFormattedData(response);
+                    debugger;
                 }
             }
         },
         editProduct(maturityList) {
             this.product = {...maturityList};
             this.productDialog = true;
+            debugger;
         },
         confirmDeleteProduct(maturityList) {
             this.product = maturityList;
@@ -97,8 +121,8 @@ new Vue({
             if (this.product.date.trim()) {
                 if (this.product.id) {
                     this.$set(this.maturityList, this.findIndexById(this.product.id), this.product);
-                    // this.$toast.add({severity:'success', summary: 'Successful', detail: 'Product Updated', life: 3000});
-                    // alert("updated")
+                    this.editData(this.product)
+                    debugger;
                 }
 
                 this.productDialog = false;

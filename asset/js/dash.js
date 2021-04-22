@@ -75,13 +75,13 @@ new Vue({
         editData:async function(product){
             var vm=this;
            
-            var requestBody={
-                "id":product.id,
-                "from": product.date.trim
-                 "to":
-            "generalIntrest": 5.0,
-			"seniorIntrest": 6.5
-            }
+            // var requestBody={
+            //     "id":product.id,
+            //     "from": product.date.trim
+            //      "to":
+            // "generalIntrest": 5.0,
+			// "seniorIntrest": 6.5
+            // }
             config={
                 method: "PUT",
                 path:'/data/'+product.id,
@@ -115,9 +115,8 @@ new Vue({
             this.product = {};
             this.$toast.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
         },
-        saveProduct() {
+        updateProduct() {
             this.submitted = true;
-
             if (this.product.date.trim()) {
                 if (this.product.id) {
                     this.$set(this.maturityList, this.findIndexById(this.product.id), this.product);

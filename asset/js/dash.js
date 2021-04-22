@@ -11,7 +11,8 @@ new Vue({
         'p-columngroup':columngroup,
         'p-inputtext':inputtext,
         'p-button':button,
-        'p-dialog':dialog
+        'p-dialog':dialog,
+        'p-toolbar':toolbar
     },
     data() {
         return {
@@ -22,7 +23,8 @@ new Vue({
             deleteProductDialog: false,
             deleteProductsDialog: false,
             submitted: false,
-            product:{}
+            product:{},
+            filters: {}
         }
     },
     originalRows: null,
@@ -46,6 +48,11 @@ new Vue({
         // console.log(this.$route.query)
     },
     methods: {
+        openNew() {
+            this.product = {};
+            this.submitted = false;
+            this.productDialog = true;
+        },
         getJsonFormattedData:function(data){
             var vm = this;
             var formattedJsonObject=[];
@@ -99,6 +106,11 @@ new Vue({
                     this.$set(this.maturityList, this.findIndexById(this.product.id), this.product);
                     // this.$toast.add({severity:'success', summary: 'Successful', detail: 'Product Updated', life: 3000});
                     // alert("updated")
+                }
+                else {
+                    this.product.id = this.createId();
+                    this.maturityList.push(this.product);
+                    // this.$toast.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
                 }
 
                 this.productDialog = false;

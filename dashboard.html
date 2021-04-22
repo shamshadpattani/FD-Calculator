@@ -23,13 +23,26 @@
   <div id="app">
     <div class="p-5">
       <template>
-        <h3 class="mb-4">FD Details</h3>
+        <h3 class="mb-4">FD Details</h3>     
+        <p-toolbar class="mb-2">
+          <template #left>
+              <p-button label="New" icon="pi pi-plus" class="p-button-success p-mr-2" @click="openNew"></p-button>
+          </template>
+
+          <template #right>
+            <div class="table-header">
+              <span class="p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <p-inputtext v-model="filters['global']"  placeholder="Search..."></p-inputtext>
+              </span>
+            </div>
+          </template>
+        </p-toolbar>
         <div class="card border">
-          <p-datatable :value="maturityList" :paginator="true" :rows="10" 
+          <p-datatable :value="maturityList" :paginator="true" :rows="10"  :filters="filters"
           paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
           :rows-per-page-options="[10,20,50]"
           current-page-report-template="Showing {first} to {last} of {totalRecords}" edit-mode="row" data-key="id" :editing-rows.sync="editingRows">
-
             <p-columnGroup type="header">
               <p-row>
                 <p-column header="Maturity Period" :rowspan="2"></p-column>
@@ -69,7 +82,7 @@
       </template>
     </div>
     <template>
-      <p-dialog :visible.sync="productDialog" :style="{width: '450px'}" header="Product Details" :modal="true" class="p-fluid">
+      <p-dialog :visible.sync="productDialog" :style="{width: '450px'}" header="FD Details" :modal="true" class="p-fluid">
         <div class="p-field">
             <label for="date">Date</label>
             <p-inputtext id="date" v-model="product.date" required="true" rows="3" cols="20"></p-inputtext>
@@ -118,6 +131,7 @@
   <script src="primevue/button.umd.min.js"></script>
   <script src="primevue/dialog.umd.min.js"></script>
   <script src="primevue/toast.umd.min.js"></script>
+  <script src="primevue/toolbar.umd.min.js"></script>
   <!-- <script src="service/productService.js"></script> -->
 
 

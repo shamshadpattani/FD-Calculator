@@ -1,5 +1,5 @@
 
-var mainUrl="https://raw.githubusercontent.com/shamshadpattani";
+var mainUrl="http://localhost:3000";
 // var mainUrl='/helloworld/master/fdIntrest';
 
 function gettingHttpFunctions() {

@@ -1,0 +1,28 @@
+{
+  "data": [
+    {
+      "id": 1
+    },
+    {
+      "id": 2,
+      "from": 8,
+      "to": 15,
+      "generalIntrest": 5,
+      "seniorIntrest": 6.5
+    },
+    {
+      "id": 3,
+      "from": 16,
+      "to": 25,
+      "generalIntrest": 5.5,
+      "seniorIntrest": 7.5
+    },
+    {
+      "id": 4,
+      "from": 26,
+      "to": 35,
+      "generalIntrest": 6,
+      "seniorIntrest": 8
+    }
+  ]
+}

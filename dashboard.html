@@ -56,20 +56,20 @@
               </p-row>
             </p-columnGroup>
 
-            <p-column field="date" header="Maturity Period">
-              <template #editor="slotProps">
-                <p-inputtext v-model="slotProps.data[slotProps.column.field]" autofocus></p-inputtext>
+            <p-column field="from" header="Maturity Period">
+              <template #body="slotProps">
+               {{formatDate(slotProps.data.from,slotProps.data.to)}}
               </template>
             </p-column>
             <p-column field="g" header="General">
-              <template #editor="slotProps">
-                <p-inputtext v-model="slotProps.data[slotProps.column.field]"></p-inputtext>
-              </template>
+              <template #body="slotProps">
+                {{slotProps.data.generalIntrest}}%
+               </template>
             </p-column>
             <p-column field="n" header="Senior Citizen">
-              <template #editor="slotProps">
-                <p-inputtext v-model="slotProps.data[slotProps.column.field]"></p-inputtext>
-              </template>
+              <template #body="slotProps">
+                {{slotProps.data.seniorIntrest}}%
+               </template>
             </p-column>
             <p-column>
               <template #body="slotProps">
@@ -84,16 +84,20 @@
     <template>
       <p-dialog :visible.sync="productDialog" :style="{width: '450px'}" header="FD Details" :modal="true" class="p-fluid">
         <div class="p-field">
-            <label for="date">Date</label>
-            <p-inputtext id="date" v-model="product.date" required="true" rows="3" cols="20"></p-inputtext>
+            <label for="from">From</label>
+            <p-inputtext id="date" v-model="product.from" required="true" rows="3" cols="20"></p-inputtext>
         </div>
         <div class="p-field">
+          <label for="to">To</label>
+          <p-inputtext id="date" v-model="product.to" required="true" rows="3" cols="20"></p-inputtext>
+      </div>
+        <div class="p-field">
           <label for="g">General</label>
-          <p-inputtext id="g" v-model="product.g" required="true" rows="3" cols="20"></p-inputtext>
+          <p-inputtext id="g" v-model="product.generalIntrest" required="true" rows="3" cols="20"></p-inputtext>
         </div>
         <div class="p-field">
           <label for="n">Senior Citizen</label>
-          <p-inputtext id="n" v-model="product.n" required="true" rows="3" cols="20"></p-inputtext>
+          <p-inputtext id="n" v-model="product.seniorIntrest" required="true" rows="3" cols="20"></p-inputtext>
         </div>
         <template #footer>
             <p-button label="Cancel" icon="pi pi-times" class="p-button-text" @click="hideDialog"></p-button>

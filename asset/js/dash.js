@@ -43,26 +43,14 @@ new Vue({
         this.getData();
     },
     methods: {
+
+        formatDate(from,to) {
+            return from+ " days to "+to+" days"
+        },
         openNew() {
             this.product = {};
             this.submitted = false;
             this.productDialog = true;
-        },
-        getJsonFormattedData:function(data){
-            debugger;
-            var vm = this;
-            var formattedJsonObject=[];
-            debugger;
-            data.forEach(function(v,i) {
-                formattedJsonObject.push({
-                    id: i+1,
-                    date: v.from+" days to "+v.to+" days",
-                    g:v.generalIntrest+"%",
-                    n:v.seniorIntrest+"%"
-                });
-                
-            });
-            return formattedJsonObject
         },
         getData:async function(){
             var vm=this;
@@ -74,7 +62,7 @@ new Vue({
             if(response != undefined){
                 debugger;
                 if(response.length > 0 ){
-                    vm.maturityList = vm.getJsonFormattedData(response);
+                    vm.maturityList = response;
                     debugger;
                 }
             }
@@ -82,17 +70,18 @@ new Vue({
         editData:async function(product){
             var vm=this;
            
-            // var requestBody={
-            //     "id":product.id,
-            //     "from": product.date.trim
-            //      "to":
-            // "generalIntrest": 5.0,
-			// "seniorIntrest": 6.5
-            // }
+            var requestBody={
+                "id":product.id,
+                "from": product.from,
+                 "to":product.to,
+            "generalIntrest": product.generalIntrest,
+			"seniorIntrest": product.seniorIntrest
+            }
             config={
                 method: "PUT",
                 path:'/data/'+product.id,
-            
+                data:requestBody
+        
             }
             var response= await this.httpService.mainAxiosRequest(config);
             if(response != undefined){
@@ -124,7 +113,6 @@ new Vue({
         },
         updateProduct() {
             this.submitted = true;
-            if (this.product.date.trim()) {
                 if (this.product.id) {
                     this.$set(this.maturityList, this.findIndexById(this.product.id), this.product);
                     this.editData(this.product)
@@ -137,8 +125,6 @@ new Vue({
                 }
 
                 this.productDialog = false;
-                this.product = {};
-            }
         },
         findIndexById(id) {
             let index = -1;

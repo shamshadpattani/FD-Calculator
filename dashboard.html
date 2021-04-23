@@ -42,8 +42,15 @@
           <p-datatable :value="maturityList" :paginator="true" :rows="10"  :filters="filters"
           paginator-template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
           :rows-per-page-options="[10,20,50]"
-          current-page-report-template="Showing {first} to {last} of {totalRecords}" edit-mode="row" data-key="id" :editing-rows.sync="editingRows">
-            <p-columnGroup type="header">
+          current-page-report-template="Showing {first} to {last} of {totalRecords}"
+           edit-mode="row" data-key="id" :editing-rows.sync="editingRows">
+          <template #empty>
+            <div class="text-center content-center emptymsg-div-h">
+                <img src="https://image.freepik.com/free-vector/no-data-concept-illustration_114360-626.jpg" class="mt-5"/>
+                <p>No records found</p>
+            </div>
+        </template>
+        <p-columnGroup type="header">
               <p-row>
                 <p-column header="Maturity Period" :rowspan="2"></p-column>
                 <p-column header="Interest rates" :colspan="2"></p-column>

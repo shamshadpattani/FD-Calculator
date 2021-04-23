@@ -60,10 +60,8 @@ new Vue({
             }
             var response= await this.httpService.mainAxiosRequest(config);
             if(response != undefined){
-                debugger;
                 if(response.length > 0 ){
                     vm.maturityList = response;
-                    debugger;
                 }
             }
         },
@@ -86,10 +84,34 @@ new Vue({
             var response= await this.httpService.mainAxiosRequest(config);
             if(response != undefined){
                 debugger;
-                if(response.length > 0 ){
+                if(response ){
                     vm.maturityList = response;
-                    debugger;
                 }
+            }
+        },
+        addData:async function(product){
+            var vm=this;
+           
+            var requestBody={
+              "id":product.id,
+              "from": product.from.toString(),
+              "to":product.to.toString(),
+              "generalIntrest": parseFloat(product.generalIntrest),
+			  "seniorIntrest": parseFloat(product.seniorIntrest)
+            }
+            config={
+                method: "POST",
+                path:'/data',
+                data:requestBody
+        
+            }
+            var response= await this.httpService.mainAxiosRequest(config);
+            if(response != undefined){
+                if(response){
+                 //  alert("success")
+                }
+            }else{
+                alert("error")
             }
         },
         deleteData:async function(id){
@@ -102,7 +124,7 @@ new Vue({
             var response= await this.httpService.mainAxiosRequest(config);
             if(response != undefined){
                 debugger;
-                if(response.length > 0 ){
+                if(response ){
                     vm.maturityList =response
                     debugger;
                 }
@@ -126,7 +148,7 @@ new Vue({
             this.deleteData(this.product.id)
             debugger;
         },
-        updateProduct() {
+        addOrUpdateProduct() {
             this.submitted = true;
                 if (this.product.id) {
                     this.$set(this.maturityList, this.findIndexById(this.product.id), this.product);
@@ -135,8 +157,10 @@ new Vue({
                 }
                 else {
                     this.product.id = this.createId();
-                    this.maturityList.push(this.product);
-                    // this.$toast.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
+                    if(this.maturityList){
+                        this.maturityList.push(this.product);
+                    }
+                    this.addData(this.product)
                 }
 
                 this.productDialog = false;
@@ -153,11 +177,7 @@ new Vue({
             return index;
         },
         createId() {
-            let id = '';
-            var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            for ( var i = 0; i < 5; i++ ) {
-                id += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
+            let id = Math.floor(Math.random() * 100)
             return id;
         }
     }

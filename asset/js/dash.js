@@ -132,7 +132,7 @@ new Vue({
             if (response != undefined) {
                 if (response) {
                     vm.getData();    
-            this.productDialog = false;
+                   vm.deleteProductDialog = false;
                 }
             }
         },

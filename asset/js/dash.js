@@ -1,140 +1,205 @@
-
 var router = new VueRouter({
     mode: 'history',
     routes: []
 });
 new Vue({
     components: {
-        'p-datatable' : datatable,
-        'p-row':row,
-        'p-column':column,
-        'p-columngroup':columngroup,
-        'p-inputtext':inputtext,
-        'p-button':button,
-        'p-dialog':dialog,
-        'p-toolbar':toolbar
+        'p-datatable': datatable,
+        'p-row': row,
+        'p-column': column,
+        'p-columngroup': columngroup,
+        'p-inputtext': inputtext,
+        'p-button': button,
+        'p-dialog': dialog,
+        'p-toolbar': toolbar
     },
     data() {
         return {
-            maturityList:null,
+            maturityList: null,
             editingRows: [],
             columns: null,
             productDialog: false,
             deleteProductDialog: false,
             deleteProductsDialog: false,
             submitted: false,
-            product:{},
+            product: {},
             filters: {}
         }
     },
     originalRows: null,
     created() {
-     
-        this.columns = [
-            {field: 'date', header: 'Maturity Period'},
-            {field: 'g', header: 'General'},
-            {field: 'n', header: 'Senior Citizen'}
+
+        this.columns = [{
+                field: 'date',
+                header: 'Maturity Period'
+            },
+            {
+                field: 'g',
+                header: 'General'
+            },
+            {
+                field: 'n',
+                header: 'Senior Citizen'
+            }
         ];
 
-        this.originalRows = {};  
+        this.originalRows = {};
     },
-    mounted(){
-        this.httpService=gettingHttpFunctions();
+    mounted() {
+        this.httpService = gettingHttpFunctions();
         this.getData();
     },
     methods: {
 
-        formatDate(from,to) {
-            return from+ " days to "+to+" days"
+        formatDate(from, to) {
+            return from + " days to " + to + " days"
         },
         openNew() {
             this.product = {};
             this.submitted = false;
             this.productDialog = true;
         },
-        getData:async function(){
-            var vm=this;
-            config={
+        getData: async function () {
+            debugger;
+            var vm = this;
+            config = {
                 method: "GET",
-                path:'/data'
+                path: '/interest'
             }
-            var response= await this.httpService.mainAxiosRequest(config);
-            if(response != undefined){
-                if(response.length > 0 ){
-                    vm.maturityList = response;
-                }
-            }
-        },
-        editData:async function(product){
-            var vm=this;
-           
-            var requestBody={
-                "id":product.id,
-                "from": product.from,
-                 "to":product.to,
-            "generalIntrest": product.generalIntrest,
-			"seniorIntrest": product.seniorIntrest
-            }
-            config={
-                method: "PUT",
-                path:'/data/'+product.id,
-                data:requestBody
-        
-            }
-            var response= await this.httpService.mainAxiosRequest(config);
-            if(response != undefined){
+            var response = await this.httpService.mainAxiosRequest(config);
+            debugger;
+            if (response != undefined) {
+                vm.maturityList = response.data;
                 debugger;
-                if(response ){
-                    vm.maturityList = response;
+            }
+        },
+        editData: async function (product) {
+            var vm = this;
+
+            var requestBody = {
+                "id": product.id,
+                "from": product.from,
+                "to": product.to,
+                "generalInterest": product.generalIntrest,
+                "seniorInterest": product.seniorIntrest
+            }
+            config = {
+                method: "PUT",
+                path: '/data/' + product.id,
+                data: requestBody
+
+            }
+            var response = await this.httpService.mainAxiosRequest(config);
+            if (response != undefined) {
+                if (response) {
+                    // vm.maturityList = response;
                 }
             }
         },
-        addData:async function(product){
-            var vm=this;
-           
-            var requestBody={
-              "id":product.id,
-              "from": product.from.toString(),
-              "to":product.to.toString(),
-              "generalIntrest": parseFloat(product.generalIntrest),
-			  "seniorIntrest": parseFloat(product.seniorIntrest)
-            }
-            config={
-                method: "POST",
-                path:'/data',
-                data:requestBody
-        
-            }
-            var response= await this.httpService.mainAxiosRequest(config);
-            if(response != undefined){
-                if(response){
-                 //  alert("success")
+        addData: async function (product) {
+            var vm = this;
+            debugger;
+            var requestBody = {
+                "interestRate": {
+                    "from": product.from.toString(),
+                    "to": product.to.toString(),
+                    "generalInterest": parseFloat(product.generalIntrest),
+                    "seniorInterest": parseFloat(product.seniorIntrest)
                 }
-            }else{
+            }
+            config = {
+                method: "POST",
+                path: '/interest',
+                data: requestBody
+            }
+            var response = await this.httpService.mainAxiosRequest(config);
+            if (response != undefined) {
+                if (response) {
+                    this.getData()
+                    alert("Success")
+                }
+            } else {
                 alert("error")
             }
         },
-        deleteData:async function(id){
-            var vm=this;
-        
-            config={
+        deleteData: async function (id) {
+            var vm = this;
+            config = {
                 method: "DELETE",
-                path:'/data/'+id
+                path: '/interest/' + id
             }
-            var response= await this.httpService.mainAxiosRequest(config);
-            if(response != undefined){
-                debugger;
-                if(response ){
-                    vm.maturityList =response
-                    debugger;
+            var response = await this.httpService.mainAxiosRequest(config);
+            if (response != undefined) {
+                if (response) {
+                    vm.getData();    
+            this.productDialog = false;
                 }
             }
         },
         editProduct(maturityList) {
-            this.product = {...maturityList};
+            this.product = {
+                ...maturityList
+            };
             this.productDialog = true;
             debugger;
         },
+
+        addOrUpdateProduct() {
+            this.submitted = true;
+            if (this.product.id) {
+                if (this.product.to <= this.product.from) {
+                    alert("The edit date is not valid,please check dates")
+                    this.product = {};
+                } else {
+                    from = parseInt(this.product.from)
+                    to = parseInt(this.product.to)
+
+                    this.maturityList.some(element => {
+                        _from = parseInt(element.from)
+                        _to = parseInt(element.to)
+                        if (_from <= to && to <= _to) {
+                            alert("The edit date is not valid,please check dates")
+                            return true;
+                        } else {
+
+                            this.editData(this.product)
+                            this.productDialog = false;
+                            return false;
+                        }
+                    });
+                }
+
+            } else {
+                this.product.id = this.createId();
+                debugger;
+                if (this.maturityList) {
+                    //this.maturityList.push(this.product);
+                    from = parseInt(this.product.from)
+                    to = parseInt(this.product.to)
+                    var valid = true;
+
+                    this.maturityList.some(element => {
+                        _from = parseInt(element.from)
+                        _to = parseInt(element.to)
+                        if (_from <= to && to <= _to) {
+                            alert("The date is not valid,please check dates")
+                            this.product = {};
+                            valid = false;
+                            return true;
+                        }
+                    });
+                    if (valid) {
+                        this.$set(this.maturityList, this.findIndexById(this.product.id), this.product);
+                        this.addData(this.product)
+                        this.productDialog = false;
+                    }
+                } else {
+                    //this.$set(this.maturityList, this.findIndexById(this.product.id), this.product);
+                    this.addData(this.product)
+                }
+            }
+        },
+
         confirmDeleteProduct(maturityList) {
             this.product = maturityList;
             this.deleteProductDialog = true;
@@ -148,23 +213,8 @@ new Vue({
             this.deleteData(this.product.id)
             debugger;
         },
-        addOrUpdateProduct() {
-            this.submitted = true;
-                if (this.product.id) {
-                    this.$set(this.maturityList, this.findIndexById(this.product.id), this.product);
-                    this.editData(this.product)
-                    debugger;
-                }
-                else {
-                    this.product.id = this.createId();
-                    if(this.maturityList){
-                        this.maturityList.push(this.product);
-                    }
-                    this.addData(this.product)
-                }
 
-                this.productDialog = false;
-        },
+
         findIndexById(id) {
             let index = -1;
             for (let i = 0; i < this.maturityList.length; i++) {
@@ -181,4 +231,4 @@ new Vue({
             return id;
         }
     }
-    }).$mount('#app')
+}).$mount('#app')

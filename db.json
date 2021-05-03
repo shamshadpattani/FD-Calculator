@@ -1,5 +1,18 @@
 {
   "data": [
-   
+    {
+      "id": 78,
+      "from": "1",
+      "to": "3",
+      "generalIntrest": 4,
+      "seniorIntrest": 4
+    },
+    {
+      "id": 67,
+      "from": "4",
+      "to": "5",
+      "generalIntrest": 2,
+      "seniorIntrest": 2
+    }
   ]
 }

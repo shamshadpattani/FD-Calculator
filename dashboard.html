@@ -26,7 +26,7 @@
         <h3 class="mb-4">FD Details</h3>     
         <p-toolbar class="mb-2">
           <template #left>
-              <p-button label="New" icon="pi pi-plus" class="p-button-success p-mr-2" @click="openNew"></p-button>
+              <p-button label="New" icon="pi pi-plus" class="p-button-success p-mr-2" @click.prevent="openNew"></p-button>
           </template>
 
           <template #right>
@@ -70,18 +70,18 @@
             </p-column>
             <p-column field="g" header="General">
               <template #body="slotProps">
-                {{slotProps.data.generalIntrest}}%
+                {{slotProps.data.generalInterest}}%
                </template>
             </p-column>
             <p-column field="n" header="Senior Citizen">
               <template #body="slotProps">
-                {{slotProps.data.seniorIntrest}}%
+                {{slotProps.data.seniorInterest}}%
                </template>
             </p-column>
             <p-column>
               <template #body="slotProps">
-                <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" @click="editProduct(slotProps.data)"></p-button>
-                <p-button icon="pi pi-trash" class="p-button-rounded p-button-warning" @click="confirmDeleteProduct(slotProps.data)"></p-button>
+                <p-button icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" @click.prevent="editProduct(slotProps.data)"></p-button>
+                <p-button icon="pi pi-trash" class="p-button-rounded p-button-warning" @click.prevent="confirmDeleteProduct(slotProps.data)"></p-button>
               </template>
             </p-column>
           </p-datatable>
@@ -107,8 +107,8 @@
           <p-inputtext id="n" v-model="product.seniorIntrest" required="true" rows="3" cols="20"></p-inputtext>
         </div>
         <template #footer>
-            <p-button label="Cancel" icon="pi pi-times" class="p-button-text" @click="hideDialog"></p-button>
-            <p-button  label="Save" icon="pi pi-check" class="p-button-text" @click="addOrUpdateProduct"></p-button>
+            <p-button label="Cancel" icon="pi pi-times" class="p-button-text" @click.prevent="hideDialog"></p-button>
+            <p-button  label="Save" icon="pi pi-check" class="p-button-text" @click.prevent="addOrUpdateProduct()"></p-button>
         </template>
       </p-dialog>
         
@@ -118,8 +118,8 @@
               <span v-if="maturityList">Are you sure you want to delete?</span>
           </div>
           <template #footer>
-              <p-button label="No" icon="pi pi-times" class="p-button-text" @click="deleteProductDialog = false"></p-button>
-              <p-button label="Yes" icon="pi pi-check" class="p-button-text" @click="deleteProduct()"></p-button>
+              <p-button label="No" icon="pi pi-times" class="p-button-text" @click.prevent="deleteProductDialog = false"></p-button>
+              <p-button label="Yes" icon="pi pi-check" class="p-button-text" @click.prevent="deleteProduct()"></p-button>
           </template>
       </p-dialog>
     </template>

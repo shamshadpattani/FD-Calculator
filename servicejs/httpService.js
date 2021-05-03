@@ -1,5 +1,5 @@
 
-var mainUrl="http://localhost:3000";
+var mainUrl="http://192.168.1.19:9440";
 // var mainUrl='/helloworld/master/fdIntrest';
 
 function gettingHttpFunctions() {

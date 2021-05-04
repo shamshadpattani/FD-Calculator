@@ -4,15 +4,15 @@
       "id": 78,
       "from": "1",
       "to": "3",
-      "generalIntrest": 4,
-      "seniorIntrest": 4
+      "generalInterest": 4,
+      "seniorInterest": 4
     },
     {
       "id": 67,
       "from": "4",
       "to": "5",
-      "generalIntrest": 2,
-      "seniorIntrest": 2
+      "generalInterest": 2,
+      "seniorInterest": 2
     }
   ]
 }

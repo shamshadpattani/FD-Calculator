@@ -69,7 +69,7 @@ new Vue({
             var response = await this.httpService.mainAxiosRequest(config);
             debugger;
             if (response != undefined) {
-                vm.maturityList = response.data;
+                vm.maturityList = response.data.interestrates;
                 debugger;
             }
         },
@@ -77,22 +77,28 @@ new Vue({
             var vm = this;
 
             var requestBody = {
-                "id": product.id,
-                "from": product.from,
-                "to": product.to,
-                "generalInterest": product.generalIntrest,
-                "seniorInterest": product.seniorIntrest
+                "interestRate": {
+                    "id": product.id,
+                    "from": product.from,
+                    "to": product.to,
+                    "generalInterest": parseFloat(product.generalInterest),
+                    "seniorInterest": parseFloat(product.seniorInterest)
+                }
             }
             config = {
-                method: "PUT",
-                path: '/data/' + product.id,
+                method: "POST",
+                path: '/interest/edit',
                 data: requestBody
 
             }
             var response = await this.httpService.mainAxiosRequest(config);
+            debugger;
             if (response != undefined) {
                 if (response) {
-                    // vm.maturityList = response;
+                    vm.getData()
+                    vm.productDialog=false;
+                }else{
+                    alert("oops")
                 }
             }
         },
@@ -103,8 +109,8 @@ new Vue({
                 "interestRate": {
                     "from": product.from.toString(),
                     "to": product.to.toString(),
-                    "generalInterest": parseFloat(product.generalIntrest),
-                    "seniorInterest": parseFloat(product.seniorIntrest)
+                    "generalInterest": parseFloat(product.generalInterest),
+                    "seniorInterest": parseFloat(product.seniorInterest)
                 }
             }
             config = {
@@ -131,8 +137,8 @@ new Vue({
             var response = await this.httpService.mainAxiosRequest(config);
             if (response != undefined) {
                 if (response) {
-                    vm.getData();    
-                   vm.deleteProductDialog = false;
+                    vm.getData();
+                    vm.deleteProductDialog = false;
                 }
             }
         },
@@ -140,37 +146,20 @@ new Vue({
             this.product = {
                 ...maturityList
             };
+            debugger;
             this.productDialog = true;
             debugger;
         },
 
         addOrUpdateProduct() {
+         var  vm=this;
             this.submitted = true;
             if (this.product.id) {
-                if (this.product.to <= this.product.from) {
-                    alert("The edit date is not valid,please check dates")
-                    this.product = {};
-                } else {
-                    from = parseInt(this.product.from)
-                    to = parseInt(this.product.to)
-
-                    this.maturityList.some(element => {
-                        _from = parseInt(element.from)
-                        _to = parseInt(element.to)
-                        if (_from <= to && to <= _to) {
-                            alert("The edit date is not valid,please check dates")
-                            return true;
-                        } else {
-
-                            this.editData(this.product)
-                            this.productDialog = false;
-                            return false;
-                        }
-                    });
-                }
-
-            } else {
-                this.product.id = this.createId();
+                vm.editData(this.product)
+                //vm.productDialog = false;
+                 return false;    
+             } else {
+              //  this.product.id = this.createId();
                 debugger;
                 if (this.maturityList) {
                     //this.maturityList.push(this.product);

@@ -3,29 +3,29 @@
             "id":1,
 			"from": 5,
 			"to": 7,
-			"generalIntrest": 5.0,
-			"seniorIntrest": 6.5
+			"generalInterest": 5.0,
+			"seniorInterest": 6.5
 		},
 		{
             "id":2,
 			"from": 8,
 			"to": 15,
-			"generalIntrest": 5.0,
-			"seniorIntrest": 6.5
+			"generalInterest": 5.0,
+			"seniorInterest": 6.5
 		},
 		{
             "id":3,
 			"from": 16,
 			"to": 25,
-			"generalIntrest": 5.5,
-			"seniorIntrest": 7.5
+			"generalInterest": 5.5,
+			"seniorInterest": 7.5
 		},
 		{
             "id":4,
 			"from": 26,
 			"to": 35,
-			"generalIntrest": 6.0,
-			"seniorIntrest": 8.0
+			"generalInterest": 6.0,
+			"seniorInterest": 8.0
 		}
 	]
 }
